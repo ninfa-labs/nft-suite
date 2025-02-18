@@ -1,0 +1,66 @@
+name: "Use Template"
+
+# This workflow is triggered when someone creates a new repository
+# from your template repository and pushes for the first time.
+# If you still want to use the 'template' functionality for nft-suite,
+# make sure your GitHub repo settings show it as a "Template repository".
+on:
+  push:
+
+jobs:
+  create-from-template:
+    # Prevents this from running in the original template repository
+    if: ${{ !github.event.repository.is_template }}
+    permissions: write-all
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out the newly created repo
+      - name: "Check out the repo"
+        uses: actions/checkout@v4
+
+      # 2. Run the rename script to update references
+      #    NOTE: rename.sh must exist in .github/scripts. 
+      #    Make sure your rename.sh lines up with your final version.
+      - name: "Update package.json, README badges, etc."
+        env:
+          GITHUB_REPOSITORY_DESCRIPTION: ${{ github.event.repository.description }}
+        run: |
+          ./.github/scripts/rename.sh \
+            "${{ github.repository }}" \
+            "${{ github.event.repository.owner.login }}" \
+            "${{ env.GITHUB_REPOSITORY_DESCRIPTION }}"
+
+      # 3. Summarize the rename step
+      - name: "Add rename summary"
+        run: |
+          echo "## Rename step" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Rename script has been run" >> $GITHUB_STEP_SUMMARY
+
+      # 4. Optionally, remove files not needed in the user's copy
+      #    If you want them to keep these files, you can remove/comment out these lines.
+      - name: "Remove template-specific files"
+        run: |
+          rm -f "./.github/scripts/rename.sh"
+          rm -f "./.github/workflows/use-template.yml"
+
+      # 5. Summarize the remove step
+      - name: "Add remove summary"
+        run: |
+          echo "## Remove step" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Template-specific files have been removed" >> $GITHUB_STEP_SUMMARY
+
+      # 6. Amend the previous commit so that the final repository looks clean
+      - name: "Update commit"
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "feat: initial commit"
+          commit_options: "--amend"
+          push_options: "--force"
+          skip_fetch: true
+
+      # 7. Summarize the commit step
+      - name: "Add commit summary"
+        run: |
+          echo "## Commit result" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Initial commit amended" >> $GITHUB_STEP_SUMMARY
