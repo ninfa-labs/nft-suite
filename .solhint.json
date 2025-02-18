@@ -3,14 +3,12 @@
   "rules": {
     "code-complexity": ["error", 8],
     "compiler-version": ["error", ">=0.8.28"],
-    "func-name-mixedcase": "off",
     "func-visibility": ["error", { "ignoreConstructors": true }],
     "max-line-length": ["warn", 140],
     "named-parameters-mapping": "warn",
     "no-console": "off",
     "not-rely-on-time": "off",
     "one-contract-per-file": "off",
-
     "no-global-import": "warn",
     "var-name-mixedcase": "warn",
     "gas-custom-errors": "warn",
@@ -18,6 +16,11 @@
     "immutable-vars-naming": "warn",
     "avoid-low-level-calls": "warn",
     "no-inline-assembly": "warn",
-    "contract-name-capwords": "warn"
+    "contract-name-capwords": "warn",
+    "no-empty-blocks": "warn",
+    "no-unreachable-code": "warn",
+    "payable-fallback": "warn",
+    "no-tx-origin": "warn",
+    "avoid-sha3": "warn"
   }
 }
