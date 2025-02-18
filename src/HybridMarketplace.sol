@@ -31,8 +31,6 @@ contract HybridMarketplace is OnChainMarketplace, EIP712 {
     // variables for off-chain order matching via EIP-712 signature standard
     bytes32 private immutable _VOUCHER_TYPEHASH;
 
-    event VoucherVoided(address, bytes32[] digests);
-
     /**
      * @param feeRecipient_ address (multisig) controlled by Ninfa that will receive any market fees
      */
@@ -44,7 +42,6 @@ contract HybridMarketplace is OnChainMarketplace, EIP712 {
     )
         OnChainMarketplace(_USDC, _AggregatorV3Interface, feeRecipient_, _salesFeeBps_)
     {
-        owner = msg.sender;
 
         initialize(""); // calls EIP712 constructor, i.e. inititlize()
 
