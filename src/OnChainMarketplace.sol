@@ -1226,11 +1226,7 @@ contract OnChainMarketplace is Owned, RoyaltyEngineV1 {
             // * operators must match or else order.unitPrice could be set by unauthorized
             // * `order.tokenId == _tokenId` prevents the operator from sending a different tokenId,
             //   in order to raise the value of order.ERC1155Value
-            require(
-                order.operator == _operator
-                    && order.collection == msg.sender
-                    && order.tokenId == _tokenId
-            );
+            require(order.operator == _operator && order.collection == msg.sender && order.tokenId == _tokenId);
 
             order.ERC1155Value += _ERC1155Value;
 
