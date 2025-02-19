@@ -33,12 +33,14 @@ contract CuratedFactory is AbstractFactory, AccessControl {
     }
 
     /**
+     * @dev keccak256("MINTER_ROLE");
      * @dev _MINTER_ROLE is needed for deploying new instances of the whitelisted collections,
      * it is equivalent to a whitelist of allowed deployers, it can be set by the _CURATOR_ROLE or made payable by
      * derived contracts
      */
-    bytes32 internal constant _MINTER_ROLE = 0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6; // keccak256("MINTER_ROLE");
+    bytes32 internal constant _MINTER_ROLE = 0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6;
     /**
+     * @dev keccak256("CURATOR_ROLE");
      * @dev _CURATOR_ROLE is needed particularly for the curated factory derived contract, in order for already
      * whitelisted minters (_MINTER_ROLE),
      * to be able to whitelist other minters, e.g. a gallery whitelisting artists, without having to pay in order to
@@ -46,7 +48,7 @@ contract CuratedFactory is AbstractFactory, AccessControl {
      * by using off-chain signatures and delegating the task to a backend service (using a _CURATOR_ROLE private key).
      * This minimizes security risks by not having to expose the admin private key to the backend service.
      */
-    bytes32 internal constant _CURATOR_ROLE = 0x850d585eb7f024ccee5e68e55f2c26cc72e1e6ee456acf62135757a5eb9d4a10; // keccak256("CURATOR_ROLE")
+    bytes32 internal constant _CURATOR_ROLE = 0x850d585eb7f024ccee5e68e55f2c26cc72e1e6ee456acf62135757a5eb9d4a10;
 
     /**
      * @notice Clone function to create a new instance of a contract.

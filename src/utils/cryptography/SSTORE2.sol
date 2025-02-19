@@ -17,23 +17,23 @@ library SSTORE2 {
         bytes memory runtimeCode = abi.encodePacked(hex"00", data);
 
         bytes memory creationCode = abi.encodePacked(
-            //---------------------------------------------------------------------------------------------------------------//
-            // Opcode  | Opcode + Arguments  | Description  | Stack View                                                     //
-            //---------------------------------------------------------------------------------------------------------------//
-            // 0x60    |  0x600B             | PUSH1 11     | codeOffset                                                     //
-            // 0x59    |  0x59               | MSIZE        | 0 codeOffset                                                   //
-            // 0x81    |  0x81               | DUP2         | codeOffset 0 codeOffset                                        //
-            // 0x38    |  0x38               | CODESIZE     | codeSize codeOffset 0 codeOffset                               //
-            // 0x03    |  0x03               | SUB          | (codeSize - codeOffset) 0 codeOffset                           //
+            //-----------------------------------------------------------------------------------------------------//
+            // Opcode  | Opcode + Arguments  | Description  | Stack View                                           //
+            //-----------------------------------------------------------------------------------------------------//
+            // 0x60    |  0x600B             | PUSH1 11     | codeOffset                                           //
+            // 0x59    |  0x59               | MSIZE        | 0 codeOffset                                         //
+            // 0x81    |  0x81               | DUP2         | codeOffset 0 codeOffset                              //
+            // 0x38    |  0x38               | CODESIZE     | codeSize codeOffset 0 codeOffset                     //
+            // 0x03    |  0x03               | SUB          | (codeSize - codeOffset) 0 codeOffset                 //
             // 0x80    |  0x80               | DUP          | (codeSize - codeOffset) (codeSize - codeOffset) 0
             // codeOffset   //
             // 0x92    |  0x92               | SWAP3        | codeOffset (codeSize - codeOffset) 0 (codeSize -
             // codeOffset)   //
             // 0x59    |  0x59               | MSIZE        | 0 codeOffset (codeSize - codeOffset) 0 (codeSize -
             // codeOffset) //
-            // 0x39    |  0x39               | CODECOPY     | 0 (codeSize - codeOffset)                                      //
-            // 0xf3    |  0xf3               | RETURN       |                                                                //
-            //---------------------------------------------------------------------------------------------------------------//
+            // 0x39    |  0x39               | CODECOPY     | 0 (codeSize - codeOffset)                            //
+            // 0xf3    |  0xf3               | RETURN       |                                                      //
+            //-----------------------------------------------------------------------------------------------------//
             hex"600B5981380380925939F3", // Returns all code in the contract except for the first 11 (0B in hex) bytes.
             runtimeCode // The bytecode we want the contract to have after deployment. Capped at 1 byte less than the
                 // code size limit.

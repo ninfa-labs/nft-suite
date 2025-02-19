@@ -18,9 +18,8 @@ library Address {
      *
      * IMPORTANT: because control is transferred to `recipient`, care must be
      * taken to not create reentrancy vulnerabilities. Consider using
-     * {ReentrancyGuard} or the
-     * https://solidity.readthedocs.io/en/v0.5.11/security-considerations.html#use-the-checks-effects-interactions-pattern[checks-effects-interactions
-     * pattern].
+     * {ReentrancyGuard} or the checks-effects-interactions pattern
+     * https://solidity.readthedocs.io/en/v0.5.11/security-considerations.html#use-the-checks-effects-interactions-pattern
      * @dev Sends `_amount` wei to `_receiver`, forwarding all available gas and reverting on errors.
      * This function is a replacement for Solidity's `transfer` which has a limitation due to EIP1884.
      * @param _receiver The address of the recipient.

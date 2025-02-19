@@ -89,11 +89,11 @@ contract ERC1155 is IERC1155Errors {
         _balanceOf[to][id] += amount;
 
         emit TransferSingle(msg.sender, from, to, id, amount);
-
+        // 0xf23a6e61 == IERC1155Receiver.onERC1155Received.selector
         require(
             to.code.length == 0
                 ? to != address(0)
-                : IERC1155Receiver(to).onERC1155Received(msg.sender, from, id, amount, data) == 0xf23a6e61 // IERC1155Receiver.onERC1155Received.selector
+                : IERC1155Receiver(to).onERC1155Received(msg.sender, from, id, amount, data) == 0xf23a6e61
         );
     }
 

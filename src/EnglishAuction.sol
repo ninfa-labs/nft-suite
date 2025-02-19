@@ -313,7 +313,7 @@ contract EnglishAuction is Owned, RoyaltyEngineV1 {
             do {
                 commissionReceiversLength--;
                 uint256 commissionAmount =
-                    (auction.commissionBps[commissionReceiversLength] * auction.bidPrice) / _BPS_DENOMINATOR; // calculate
+                    (auction.commissionBps[commissionReceiversLength] * auction.bidPrice) / _BPS_DENOMINATOR;
 
                 sellerAmount -= commissionAmount; // subtract before external
 
@@ -404,7 +404,7 @@ contract EnglishAuction is Owned, RoyaltyEngineV1 {
                 do {
                     commissionReceiversLength--;
                     uint256 commissionAmount =
-                        (auction.commissionBps[commissionReceiversLength] * auction.bidPrice) / _BPS_DENOMINATOR; // calculate
+                        (auction.commissionBps[commissionReceiversLength] * auction.bidPrice) / _BPS_DENOMINATOR;
 
                     sellerAmount -= commissionAmount; // subtract before external
 
