@@ -4,7 +4,7 @@
 [![CI](https://github.com/ninfa-labs/nft-suite/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ninfa-labs/nft-suite/actions/workflows/ci.yml)
 [![Foundry](https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg)](https://getfoundry.sh/)
 
-Extensible smart contracts template including an NFT marketplace, auction, and varios ERC-721 and ERC-1155 presets, with
+Extensible smart contracts template including an NFT marketplace, auction, and many ERC-721 and ERC-1155 presets, with
 test suite in Solidity. View the full documentation and tutorials at [docs.ninfa.io](https://docs.ninfa.io).
 
 ## Getting Started
