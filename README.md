@@ -1,15 +1,25 @@
-<div align="left"><figure><img src="logo.webp" alt="" width="188"><figcaption></figcaption></figure></div>
+# <img src="logo.webp" alt="Ninfa.io" width='267px'>
 
 [![Docs](https://img.shields.io/badge/docs-%F0%9F%93%84-blue)](https://docs.ninfa.io)
 [![CI](https://github.com/ninfa-labs/nft-suite/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ninfa-labs/nft-suite/actions/workflows/ci.yml)
 [![Foundry](https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg)](https://getfoundry.sh/)
 
-Extensible smart contracts template including an NFT marketplace, auction, and many ERC-721 and ERC-1155 presets, with
+A template library built with [Foundry](https://getfoundry.sh/), including an NFT marketplace, auction, plus many ERC-721 and ERC-1155 presets, complete with
 test suite in Solidity. View the full documentation and tutorials at [docs.ninfa.io](https://docs.ninfa.io).
+
+* ERC-721 and ERC-1155 contract presets, including:
+  * minter
+  * lazy-minter
+  * generative
+  * open editions
+* Factory presets for curated NFT drops, allow deploying minimal proxy "clones" of whitelisted contracts:
+  * Curated: a communal role-based access control factory, including a "curator" and a "minter" role, easily track artists, clones and master contracts via public getters.
+  * Payable: a sovereign factory with a single owner, allowing anyone to clone whitelisted contracts for a fee.
+  * Open: sovereign factory where anyone can call the `clone` function as long as the master copy being cloned is whitelisted by the owner.
 
 ## Getting Started
 
-Click the `Use this template` button at the top of the [Github page](https://github.com/ninfa-labs/nft-marketplace) in
+Click the [`Use this template`](https://github.com/ninfa-labs/nft-suite/generate) button at the top of the [Github page](https://github.com/ninfa-labs/nft-suite) in
 order to create a new repository from the template project.
 
 Or, if you prefer to install the template from the terminal:
@@ -263,6 +273,7 @@ as overriding.
 All NFT preset contracts in `./src/token` are compatible with both upgradeable and regular deployment patterns. All
 initial state changes are written inside the `initialize()` function, rather than the constructor, this is so that
 contract specific parameters can be set when deploying new sovereign contracts (clones) from a factory contract.
+Therefore, even though the clones are not really upgradeable, they have most of the same requirements that upgradeable contracts have: initializer function, no immutable variables.
 
 ## Bug reports
 
