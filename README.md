@@ -2,6 +2,7 @@
 
 [![Docs](https://img.shields.io/badge/docs-%F0%9F%93%84-blue)](https://docs.ninfa.io)
 [![CI](https://github.com/ninfa-labs/nft-suite/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ninfa-labs/nft-suite/actions/workflows/ci.yml)
+[![Codecov](https://codecov.io/gh/ninfa-labs/nft-suite/branch/main/graph/badge.svg)](https://codecov.io/gh/ninfa-labs/nft-suite)
 [![Foundry](https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg)](https://getfoundry.sh/)
 
 A template library built with [Foundry](https://getfoundry.sh/), including:

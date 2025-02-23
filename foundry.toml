@@ -8,11 +8,8 @@
     gas_reports = ["*"]
     optimizer = true
     optimizer_runs = 4_194_304                                                     # a larger “runs” parameter will produce longer but more gas efficient code. The maximum value of the parameter is 2**32-1.
-    out = "out"
     script = "script"
     solc = "0.8.28"
-    src = "src"
-    test = "test"
     via_ir = true
 
 # this sets the `yulDetails` of the `optimizer_details` for the `default` profile
@@ -26,8 +23,37 @@
     optimizerRuns = 200
 
 [profile.ci]
+    auto_detect_solc = false
+    bytecode_hash = "none"                                                         # ipfs (default) https://book.getfoundry.sh/reference/config/solidity-compiler#bytecode_hash
+    evm_version = "paris"
     fuzz = { runs = 1_000 }
+    gas_reports = ["*"]
+    optimizer = true
+    optimizer_runs = 4_194_304                                                     # a larger “runs” parameter will produce longer but more gas efficient code. The maximum value of the parameter is 2**32-1.
+    script = "script"
+    solc = "0.8.28"
     verbosity = 4
+    via_ir = true
+
+[profile.ci.optimizer_details.yulDetails]
+    stackAllocation = true
+    optimizerSteps = 'dhfoDgvulfnTUtnIf'
+
+[profile.coverage]
+    auto_detect_solc = false
+    solc = "0.8.28"
+    evm_version = "paris"
+    bytecode_hash = "none"
+    script = "script"
+    fuzz = { runs = 1_000 }
+
+    # Typically for coverage, set optimizer = false or minimal
+    optimizer = false
+
+    # If you do want IR-based compilation for coverage with minimal optimization,
+    # set via_ir = "ir-minimum" in the command line or here:
+    via_ir = true  # Not recommended for coverage unless you do --ir-minimum
+    # via_ir = false
 
 [etherscan]
     arbitrum = { key = "${API_KEY_ARBISCAN}", url = "https://api.arbiscan.io/api/" }
@@ -40,7 +66,6 @@
     sepolia = { key = "${API_KEY_ETHERSCAN}", chain = "sepolia", url = "https://api-sepolia.etherscan.io/api/" }
     base = { key = "${API_KEY_BASESCAN}", url = "https://api.basescan.org/api/" }
     base_goerli = { key = "${API_KEY_BASESCAN_GOERLI}", url = "https://api-goerli.basescan.org/api/" }
-
 
 [fmt]
     bracket_spacing = true

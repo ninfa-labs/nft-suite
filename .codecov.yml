@@ -1,0 +1,14 @@
+comment: off            # Disables PR comments from Codecov
+github_checks:
+  annotations: false    # Disables GitHub PR "annotation" comments
+coverage:
+  status:
+    patch:
+      default:
+        target: 95%     # Enforce that new/modified lines (patch) must have 95% coverage
+        only_pulls: true
+    project:
+      default:
+        threshold: 1%   # If coverage falls by more than 1%, fail or warn
+ignore:
+  - "test"              # Exclude your 'test' folder from coverage analysis
