@@ -4,18 +4,19 @@
 [![CI](https://github.com/ninfa-labs/nft-suite/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ninfa-labs/nft-suite/actions/workflows/ci.yml)
 [![Foundry](https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg)](https://getfoundry.sh/)
 
-A template library built with [Foundry](https://getfoundry.sh/), including an NFT marketplace, auction, plus many ERC-721 and ERC-1155 presets, complete with
-test suite in Solidity. View the full documentation and tutorials at [docs.ninfa.io](https://docs.ninfa.io).
+A template library built with [Foundry](https://getfoundry.sh/), including:
 
-* ERC-721 and ERC-1155 contract presets, including:
-  * minter
-  * lazy-minter
-  * generative
-  * open editions
+* [Marketplace](https://docs.ninfa.io/tutorials/marketplace): create and manage on-chain NFT orders and offers, pay with ETH or USDC.
+* [English Auction](https://docs.ninfa.io/tutorials/auction)
+* ERC-721 and ERC-1155 token presets:
+  * minter ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721base), [ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155base))
+  * lazy-minter ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721lazymint), [ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155lazymint))
+  * generative ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721generative))
+  * open editions ([ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155openedition))
 * Factory presets for curated NFT drops, allow deploying minimal proxy "clones" of whitelisted contracts:
-  * Curated: a communal role-based access control factory, including a "curator" and a "minter" role, easily track artists, clones and master contracts via public getters.
-  * Payable: a sovereign factory with a single owner, allowing anyone to clone whitelisted contracts for a fee.
-  * Open: sovereign factory where anyone can call the `clone` function as long as the master copy being cloned is whitelisted by the owner.
+  * [Curated](https://docs.ninfa.io/tutorials/factory/curatedfactory): a communal role-based access control factory, including a "curator" and a "minter" roles.
+  * [Open](https://docs.ninfa.io/tutorials/factory/openfactory): sovereign factory with single owner, public `clone` function, deploy copies of contract instances whitelisted by the owner.
+  * [Payable](https://docs.ninfa.io/tutorials/factory/payablefactory): sovereign factory with single owner, allowing anyone to clone whitelisted contracts for a fee.
 
 ## Getting Started
 
