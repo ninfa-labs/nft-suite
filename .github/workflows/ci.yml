@@ -82,15 +82,19 @@ jobs:
             echo $(($EPOCHSECONDS - $EPOCHSECONDS % 604800))
           )" >> $GITHUB_ENV
 
+      # Install lcov so genhtml is available
+      - name: "Install lcov"
+        run: sudo apt-get update && sudo apt-get install -y lcov
+
       # Normal tests (no coverage)
       - name: "Run the tests"
         run: "forge test"
 
-      # 1) Run the coverage script from package.json
+      # Run the coverage script from package.json
       - name: "Run Coverage"
         run: "bun run test:coverage:report"
 
-      # 2) Upload the coverage report to Codecov
+      # Upload the coverage report to Codecov
       - name: "Upload Coverage to Codecov"
         uses: codecov/codecov-action@v3
         with:
