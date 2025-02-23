@@ -85,16 +85,16 @@ jobs:
       # Normal tests (no coverage)
       - name: "Run the tests"
         run: "forge test"
-  
+
       # 1) Run the coverage script from package.json
       - name: "Run Coverage"
         run: "bun run test:coverage:report"
-  
+
       # 2) Upload the coverage report to Codecov
       - name: "Upload Coverage to Codecov"
         uses: codecov/codecov-action@v3
         with:
-          files: "lcov.info"         # or "coverage/lcov.info" if that's where it actually lands
+          files: "lcov.info" # or "coverage/lcov.info" if that's where it actually lands
           fail_ci_if_error: true
           # If your repo is private, or Codecov complains, add:
           # token: ${{ secrets.CODECOV_TOKEN }}
