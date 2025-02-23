@@ -74,8 +74,6 @@ contract CuratedFactory is AbstractFactory, AccessControl {
 
     /**
      * @notice Whitelist or unwhitelist a master implementation.
-     * @dev External visibility because it is meant to be needed by all derived contracts,
-     * i.e. no point in having a public getter for it, to avoid extra code.
      * @param _instance Address of the master implementation to whitelist.
      * @param _isWhitelisted Bool to set the implementation as whitelisted or not.
      */

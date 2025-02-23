@@ -6,22 +6,28 @@
 
 A template library built with [Foundry](https://getfoundry.sh/), including:
 
-* [Marketplace](https://docs.ninfa.io/tutorials/marketplace): create and manage on-chain NFT orders and offers, pay with ETH or USDC.
-* [English Auction](https://docs.ninfa.io/tutorials/auction)
-* ERC-721 and ERC-1155 token presets:
-  * minter ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721base), [ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155base))
-  * lazy-minter ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721lazymint), [ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155lazymint))
-  * generative ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721generative))
-  * open editions ([ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155openedition))
-* Factory presets for curated NFT drops, allow deploying minimal proxy "clones" of whitelisted contracts:
-  * [Curated](https://docs.ninfa.io/tutorials/factory/curatedfactory): a communal role-based access control factory, including a "curator" and a "minter" roles.
-  * [Open](https://docs.ninfa.io/tutorials/factory/openfactory): sovereign factory with single owner, public `clone` function, deploy copies of contract instances whitelisted by the owner.
-  * [Payable](https://docs.ninfa.io/tutorials/factory/payablefactory): sovereign factory with single owner, allowing anyone to clone whitelisted contracts for a fee.
+- [Marketplace](https://docs.ninfa.io/tutorials/marketplace): create and manage on-chain NFT orders and offers, pay with
+  ETH or USDC.
+- [English Auction](https://docs.ninfa.io/tutorials/auction)
+- ERC-721 and ERC-1155 token presets:
+  - minter ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721base),
+    [ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155base))
+  - lazy-minter ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721lazymint),
+    [ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155lazymint))
+  - generative ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721generative))
+  - open editions ([ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155openedition))
+- Factory presets for curated NFT drops, allow deploying minimal proxy "clones" of whitelisted contracts:
+  - [Curated](https://docs.ninfa.io/tutorials/factory/curatedfactory): a communal role-based access control factory,
+    including a "curator" and a "minter" roles.
+  - [Open](https://docs.ninfa.io/tutorials/factory/openfactory): sovereign factory with single owner, public `clone`
+    function, deploy copies of contract instances whitelisted by the owner.
+  - [Payable](https://docs.ninfa.io/tutorials/factory/payablefactory): sovereign factory with single owner, allowing
+    anyone to clone whitelisted contracts for a fee.
 
 ## Getting Started
 
-Click the [`Use this template`](https://github.com/ninfa-labs/nft-suite/generate) button at the top of the [Github page](https://github.com/ninfa-labs/nft-suite) in
-order to create a new repository from the template project.
+Click the [`Use this template`](https://github.com/ninfa-labs/nft-suite/generate) button at the top of the
+[Github page](https://github.com/ninfa-labs/nft-suite) in order to create a new repository from the template project.
 
 Or, if you prefer to install the template from the terminal:
 
@@ -274,7 +280,8 @@ as overriding.
 All NFT preset contracts in `./src/token` are compatible with both upgradeable and regular deployment patterns. All
 initial state changes are written inside the `initialize()` function, rather than the constructor, this is so that
 contract specific parameters can be set when deploying new sovereign contracts (clones) from a factory contract.
-Therefore, even though the clones are not really upgradeable, they have most of the same requirements that upgradeable contracts have: initializer function, no immutable variables.
+Therefore, even though the clones are not really upgradeable, they have most of the same requirements that upgradeable
+contracts have: initializer function, no immutable variables.
 
 ## Bug reports
 
