@@ -28,7 +28,7 @@ A template library built with [Foundry](https://getfoundry.sh/), including:
 ## Getting Started
 
 Click the [`Use this template`](https://github.com/ninfa-labs/nft-suite/generate) button at the top of the
-[Github page](https://github.com/ninfa-labs/nft-suite) in order to create a new repository from the template project.
+Github page in order to create a new repository from the template project.
 
 Or, if you prefer to install the template from the terminal:
 
