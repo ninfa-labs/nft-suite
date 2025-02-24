@@ -97,10 +97,8 @@ jobs:
       # Upload the coverage report to Codecov
       - name: "Upload Coverage to Codecov"
         uses: codecov/codecov-action@v5
-        with:
-          files: "lcov.info" # or "coverage/lcov.info"
-          fail_ci_if_error: true
-          token: ${{ secrets.CODECOV_TOKEN }}
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: "Add test summary"
         run: |
