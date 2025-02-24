@@ -98,10 +98,9 @@ jobs:
       - name: "Upload Coverage to Codecov"
         uses: codecov/codecov-action@v5
         with:
-          files: "lcov.info" # or "coverage/lcov.info" if that's where it actually lands
+          files: "lcov.info" # or "coverage/lcov.info"
           fail_ci_if_error: true
-          # If your repo is private, or Codecov complains, add:
-          # token: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: "Add test summary"
         run: |
