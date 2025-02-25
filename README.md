@@ -8,7 +8,6 @@
 [![Foundry](https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg)](https://getfoundry.sh/)
 
 A template library for secure NFT smart contracts development, including:
-presets. :rocket:
 
 - [**NFT Marketplace**](https://docs.ninfa.io/tutorials/marketplace), create and manage on-chain NFT orders and offers, pay
   with ETH or USDC.
