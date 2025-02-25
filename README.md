@@ -10,7 +10,7 @@
 A template library for secure NFT smart contracts development, including a marketplace, auction, and token
 presets. :rocket:
 
-- [**NFT Marketplace**](https://docs.ninfa.io/tutorials/marketplace): create and manage on-chain NFT orders and offers, pay
+- [**NFT Marketplace**](https://docs.ninfa.io/tutorials/marketplace), create and manage on-chain NFT orders and offers, pay
   with ETH or USDC.
 - [**English Auction**](https://docs.ninfa.io/tutorials/auction)
 - **ERC-721** and **ERC-1155** token presets:
@@ -33,19 +33,21 @@ presets. :rocket:
 Click the [`Use this template`](https://github.com/ninfa-labs/nft-suite/generate) button at the top of the Github page
 in order to create a new repository from the template project.
 
-Or, if you prefer to install the template from the terminal:
+Or, if you prefer to install the template from terminal:
 
 ```sh
-mkdir my-project
+forge init --template ninfa-labs/nft-suite my-project
 cd my-project
-forge init --template ninfa-labs/nft-marketplace
-pnpm install # install Solhint, Prettier, and other Node.js deps
+bun install # install Solhint, Prettier, and other Node.js deps
 ```
 
 If you have an existing project and want to import the contracts as a library instead, install the contracts package
 using your preferred Solidity development framework:
 
 Using Foundry
+
+If this is your first time with Foundry, check out the
+[installation](https://github.com/foundry-rs/foundry#installation) instructions.
 
 ```sh
 forge install https://github.com/ninfa-labs/nft-marketplace
@@ -61,28 +63,15 @@ yarn add ninfa-labs/ninfa-contracts
 
 ## Dependencies
 
-Ensure you have the [Foundry toolchain](https://book.getfoundry.sh/getting-started/installation) installed for this
-project.
-
-```sh
-curl -L https://foundry.paradigm.xyz | bash
-foundryup
-```
-
-This project uses `pnpm` for managing dependencies. To install all required packages found in `package.json`:
-
-```sh
-pnpm install
-```
-
 Foundry typically uses git submodules to manage dependencies, but this template uses Node.js packages because
 [submodules don't scale](https://twitter.com/PaulRBerg/status/1736695487057531328).
 
 This is how to install dependencies:
 
-1. Install the dependency using your preferred package manager, e.g. `pnpm install dependency-name`
-   - Use this syntax to install from GitHub: `pnpm install github:username/repo-name`
-2. Add a remapping for the dependency in remappings.txt, e.g. `dependency-name=node_modules/dependency-name`
+1. Install the dependency using your preferred package manager, e.g. `bun install dependency-name`
+   - Use this syntax to install from GitHub: `bun install github:username/repo-name`
+2. Add a remapping for the dependency in [remappings.txt](./remappings.txt), e.g.
+   `dependency-name=node_modules/dependency-name`
 
 The following dependencies are included in `package.json`:
 
@@ -90,6 +79,12 @@ The following dependencies are included in `package.json`:
 - [Solhint](https://github.com/protofire/solhint): linter for Solidity code
 - [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter for
   non-Solidity files
+
+## External Libraries
+
+External libraries, such as [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts), are not required dependencies.
+Instead, they are included in this project's `src` directory to allow modifications for storage and gas optimizations.
+This is necessary because the contracts in this repository are deployed on mainnet for [Ninfa.io](https://ninfa.io).
 
 ## Sensible Defaults
 
