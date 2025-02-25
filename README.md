@@ -1,14 +1,16 @@
 # <img src="logo.webp" alt="Ninfa.io" width='267px'>
 
+[![NINFA.io NFT Marketplace](./logo.svg)](https://ninfa.io)
 [![Docs](https://img.shields.io/badge/docs-%F0%9F%93%84-blue)](https://docs.ninfa.io)
 [![CI](https://github.com/ninfa-labs/nft-suite/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ninfa-labs/nft-suite/actions/workflows/ci.yml)
 [![Codecov](https://codecov.io/gh/ninfa-labs/nft-suite/branch/main/graph/badge.svg)](https://codecov.io/gh/ninfa-labs/nft-suite)
 [![Foundry](https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg)](https://getfoundry.sh/)
 
-A template library built with [Foundry](https://getfoundry.sh/), including:
+A template library for secure NFT smart contracts development, including a marketplace, auctions, and token
+presets.:rocket:
 
-- [Marketplace](https://docs.ninfa.io/tutorials/marketplace): create and manage on-chain NFT orders and offers, pay with
-  ETH or USDC.
+- [NFT Marketplace](https://docs.ninfa.io/tutorials/marketplace): create and manage on-chain NFT orders and offers, pay
+  with ETH or USDC.
 - [English Auction](https://docs.ninfa.io/tutorials/auction)
 - ERC-721 and ERC-1155 token presets:
   - minter ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721base),
