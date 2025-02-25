@@ -1,25 +1,26 @@
 # <img src="logo.webp" alt="Ninfa.io" width='267px'>
 
-[![NINFA.io NFT Marketplace](./logo.svg)](https://ninfa.io)
+[![NINFA.io](https://img.shields.io/badge/NINFA.io-NFT%20Marketplace-white?style=for-the-badge&logo=ethereum)](https://ninfa.io)
+
 [![Docs](https://img.shields.io/badge/docs-%F0%9F%93%84-blue)](https://docs.ninfa.io)
 [![CI](https://github.com/ninfa-labs/nft-suite/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ninfa-labs/nft-suite/actions/workflows/ci.yml)
 [![Codecov](https://codecov.io/gh/ninfa-labs/nft-suite/branch/main/graph/badge.svg)](https://codecov.io/gh/ninfa-labs/nft-suite)
 [![Foundry](https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg)](https://getfoundry.sh/)
 
-A template library for secure NFT smart contracts development, including a marketplace, auctions, and token
-presets.:rocket:
+A template library for secure NFT smart contracts development, including a marketplace, auction, and token
+presets. :rocket:
 
-- [NFT Marketplace](https://docs.ninfa.io/tutorials/marketplace): create and manage on-chain NFT orders and offers, pay
+- [**NFT Marketplace**](https://docs.ninfa.io/tutorials/marketplace): create and manage on-chain NFT orders and offers, pay
   with ETH or USDC.
-- [English Auction](https://docs.ninfa.io/tutorials/auction)
-- ERC-721 and ERC-1155 token presets:
+- [**English Auction**](https://docs.ninfa.io/tutorials/auction)
+- **ERC-721** and **ERC-1155** token presets:
   - minter ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721base),
     [ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155base))
   - lazy-minter ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721lazymint),
     [ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155lazymint))
   - generative ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721generative))
   - open editions ([ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155openedition))
-- Factory presets for curated NFT drops, allow deploying minimal proxy "clones" of whitelisted contracts:
+- **Factory** presets for curated NFT drops, allow deploying minimal proxy "clones" of whitelisted contracts:
   - [Curated](https://docs.ninfa.io/tutorials/factory/curatedfactory): a communal role-based access control factory,
     including a "curator" and a "minter" roles.
   - [Open](https://docs.ninfa.io/tutorials/factory/openfactory): sovereign factory with single owner, public `clone`
