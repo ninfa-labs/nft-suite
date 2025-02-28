@@ -9,17 +9,18 @@
 
 A template library for secure NFT smart contracts development, including:
 
-- [**NFT Marketplace**](https://docs.ninfa.io/tutorials/marketplace), create and manage on-chain NFT orders and offers, pay
+- [NFT Marketplace](https://docs.ninfa.io/tutorials/marketplace), create and manage on-chain NFT orders and offers, pay
   with ETH or USDC.
-- [**English Auction**](https://docs.ninfa.io/tutorials/auction)
-- **ERC-721** and **ERC-1155** token presets:
+- [English Auction](https://docs.ninfa.io/tutorials/auction)
+- ERC-721 and ERC-1155 token presets:
   - minter ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721base),
     [ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155base))
   - lazy-minter ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721lazymint),
     [ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155lazymint))
   - generative ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721generative))
   - open editions ([ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155openedition))
-- **Factory** presets for curated NFT drops, allow deploying minimal proxy "clones" of whitelisted contracts:
+- Factory, deploy minimal proxy "clones", or exact copies of smart contract instrances, such as an NFT collection, this
+  is useful in order to have on-chain access control for the deployment of new instances:
   - [Curated](https://docs.ninfa.io/tutorials/factory/curatedfactory): a communal role-based access control factory,
     including a "curator" and a "minter" roles.
   - [Open](https://docs.ninfa.io/tutorials/factory/openfactory): sovereign factory with single owner, public `clone`
@@ -81,9 +82,10 @@ The following dependencies are included in `package.json`:
 
 ## External Libraries
 
-External libraries, such as [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts), are not required dependencies.
-Instead, they are included in this project's `src` directory to allow modifications for storage and gas optimizations.
-This is necessary because the contracts in this repository are deployed on mainnet for [Ninfa.io](https://ninfa.io).
+External libraries, such as [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts), are not required
+dependencies. Instead, they are included in this project's `src` directory to allow modifications for storage and gas
+optimizations. This is necessary because the contracts in this repository are deployed on mainnet for
+[Ninfa.io](https://ninfa.io).
 
 ## Sensible Defaults
 
