@@ -11,7 +11,7 @@ import "src/access/AccessControl.sol";
  * @title ERC721Base
  * @notice Self-sovereign ERC-721 minter preset
  * @dev {ERC721} token
- * @author cosimo.demedici.eth (https://github.com/ninfa-labs/ninfa-contracts)
+ * @author cosimo.demedici.eth (https://github.com/ninfa-labs/nft-suite)
  */
 contract ERC721Base is AccessControl, ERC721Burnable, ERC721Royalty, ERC721Metadata_URI, ERC721Enumerable {
     /**

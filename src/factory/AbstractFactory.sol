@@ -7,7 +7,7 @@ import "../access/Owned.sol";
 /**
  * @title AbstractFactory
  * @notice Abstract implementation for clone factory contracts
- * @author cosimo.demedici.eth (https://github.com/ninfa-labs/ninfa-contracts)
+ * @author cosimo.demedici.eth (https://github.com/ninfa-labs/nft-suite)
  */
 abstract contract AbstractFactory {
     using Clones for address;

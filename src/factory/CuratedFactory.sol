@@ -11,7 +11,7 @@ import "../utils/Address.sol";
  * i.e. only addresses given the custom `_MINTER_ROLE` can call the `clone` function (without any fees being charged),
  * as
  * long as the cloned contract originates from a whitelisted master address.
- * @author cosimo.demedici.eth (https://github.com/ninfa-labs/ninfa-contracts)
+ * @author cosimo.demedici.eth (https://github.com/ninfa-labs/nft-suite)
  */
 contract CuratedFactory is AbstractFactory, AccessControl {
     using Address for address payable;

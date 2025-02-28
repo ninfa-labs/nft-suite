@@ -7,7 +7,7 @@ pragma solidity 0.8.28;
  * @dev constructor was removed from original implementation, because contracts that need to be deployed from factory,
  * or any upgradeable contract, should not have a constructor and therefore owner should be set in the initializer,
  * this is done atomically when deploying a clone from a factory.
- * @author cosimo.demedici.eth (https://github.com/ninfa-labs/ninfa-contracts)
+ * @author cosimo.demedici.eth (https://github.com/ninfa-labs/nft-suite)
  * @author Modified from Solmate (https://github.com/transmissions11/solmate/blob/main/src/auth/Owned.sol)
  */
 abstract contract Owned {

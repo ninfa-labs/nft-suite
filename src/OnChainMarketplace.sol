@@ -14,7 +14,7 @@ import "./access/Owned.sol";
  * If the currency/token used to pay is different from the quote one,
  * the exchange rate calculated by the marketplace by using "Chainlink" price feeds.
  *
- * @author cosimo.demedici.eth (https://github.com/ninfa-labs/ninfa-contracts)
+ * @author cosimo.demedici.eth (https://github.com/ninfa-labs/nft-suite)
  */
 contract OnChainMarketplace is Owned, RoyaltyEngineV1 {
     /**

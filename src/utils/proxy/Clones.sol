@@ -10,7 +10,7 @@ pragma solidity 0.8.28;
  * The library includes functions to deploy a proxy using either `create` (traditional deployment) or `create2` (salted
  * deterministic deployment). It also includes functions to predict the addresses of clones deployed using the
  * deterministic method.
- * @author cosimo.demedici.eth (https://github.com/ninfa-labs/ninfa-contracts)
+ * @author cosimo.demedici.eth (https://github.com/ninfa-labs/nft-suite)
  * @author modified from OpenZeppelin Contracts v5.1.0 (access/AccessControl)
  */
 library Clones {

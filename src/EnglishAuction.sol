@@ -10,7 +10,7 @@ import "./access/Owned.sol";
 /**
  * @title OnChainMarketplace
  * @notice On-chain English Auction
- * @author cosimo.demedici.eth (https://github.com/ninfa-labs/ninfa-contracts)
+ * @author cosimo.demedici.eth (https://github.com/ninfa-labs/nft-suite)
  */
 contract EnglishAuction is Owned, RoyaltyEngineV1 {
     // @dev implements sendValue() function only

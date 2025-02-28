@@ -9,7 +9,7 @@ import "../utils/Address.sol";
  * @title OpenFactory
  * @notice Clone factory pattern contract without any access control or fee required in order to deploy a clone, as long
  * as it originates from a whitelisted master address.
- * @author cosimo.demedici.eth (https://github.com/ninfa-labs/ninfa-contracts)
+ * @author cosimo.demedici.eth (https://github.com/ninfa-labs/nft-suite)
  */
 contract OpenFactory is AbstractFactory, Owned {
     using Address for address payable;

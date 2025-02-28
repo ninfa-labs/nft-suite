@@ -9,7 +9,7 @@ import "../utils/Address.sol";
  * @title PayableFactory
  * @notice Clone factory pattern contract without any access control but requiring a flat fee payment in order to deploy
  * clones, as long as they are cloned from a whitelisted master address.
- * @author cosimo.demedici.eth (https://github.com/ninfa-labs/ninfa-contracts)
+ * @author cosimo.demedici.eth (https://github.com/ninfa-labs/nft-suite)
  */
 contract PayableFactory is AbstractFactory, Owned {
     using Address for address payable;

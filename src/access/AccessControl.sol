@@ -39,7 +39,7 @@ import "./IAccessControl.sol";
  * WARNING: The `DEFAULT_ADMIN_ROLE` is also its own admin: it has permission to
  * grant and revoke this role. Extra precautions should be taken to secure
  * accounts that have been granted it.
- * @author cosimo.demedici.eth (https://github.com/ninfa-labs/ninfa-contracts)
+ * @author cosimo.demedici.eth (https://github.com/ninfa-labs/nft-suite)
  * @author modified from OpenZeppelin Contracts v5.1.0 (access/AccessControl)
  */
 abstract contract AccessControl is IAccessControl {

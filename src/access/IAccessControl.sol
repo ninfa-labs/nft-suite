@@ -3,7 +3,7 @@ pragma solidity 0.8.28;
 
 /**
  * @dev External interface of AccessControl.
- * @author cosimo.demedici.eth (https://github.com/ninfa-labs/ninfa-contracts)
+ * @author cosimo.demedici.eth (https://github.com/ninfa-labs/nft-suite)
  * @author Modified from OpenZeppelin Contracts (last updated v5.1.0) (access/IAccessControl.sol)
  */
 interface IAccessControl {

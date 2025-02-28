@@ -56,9 +56,9 @@ forge install https://github.com/ninfa-labs/nft-marketplace
 Using Hardhat
 
 ```sh
-npm install ninfa-labs/ninfa-contracts
+npm install ninfa-labs/nft-suite
 # or
-yarn add ninfa-labs/ninfa-contracts
+yarn add ninfa-labs/nft-suite
 ```
 
 ## Dependencies
