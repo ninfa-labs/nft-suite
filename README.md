@@ -28,7 +28,7 @@ A template library for secure NFT smart contracts development, including:
   - [Payable](https://docs.ninfa.io/tutorials/factory/payablefactory): sovereign factory with single owner, allowing
     anyone to clone whitelisted contracts for a fee.
 
-# Introduction
+## Overview
 
 Click the [`Use this template`](https://github.com/ninfa-labs/nft-suite/generate) button at the top of the Github page
 in order to create a new repository from the template project.
@@ -61,7 +61,7 @@ npm install ninfa-labs/nft-suite
 yarn add ninfa-labs/nft-suite
 ```
 
-# Dependencies
+## Dependencies
 
 Foundry typically uses git submodules to manage dependencies, but this template uses Node.js packages because
 [submodules don't scale](https://twitter.com/PaulRBerg/status/1736695487057531328).
@@ -135,7 +135,7 @@ src
     └── Strings.sol
 ```
 
-# Sensible Defaults
+## Sensible Defaults
 
 This template comes with a set of sensible default configurations for you to use. These defaults can be found in the
 following files:
@@ -150,14 +150,14 @@ following files:
 └── remappings.txt
 ```
 
-# GitHub Actions
+## GitHub Actions
 
 This template comes with GitHub Actions pre-configured. Your contracts will be linted and tested on every push and pull
 request made to the `main` branch.
 
 You can edit the CI script in `.github/workflows/ci.yml`.
 
-# Test Suite
+## Test Suite
 
 To run all unit test files located in `/test`:
 
@@ -195,7 +195,7 @@ Call a function on deployed contracts (testnet or mainnet):
 cast send --private-key=${PK_DEPLOYER} ${TARGET_CONTRACT} "fooBar(address,bool)" <address> <bool> --rpc-url=${RPC_URL_SEPOLIA}
 ```
 
-# Deployment Scripts
+## Deployment Scripts
 
 Deployment scripts are located in the `script` folder. Currently it contains a single script, `Deploy.sol`, which can be
 used to deploy all contracts on any EVM compatible chain.
@@ -244,11 +244,11 @@ to replace the stuck tx by sending 0 ETH:
 cast send --private-key=${PK_DEPLOYER} --value 0 --rpc-url=${RPC_URL_MAINNET} --nonce <nonce_of_stuck_tx> --gas-price <higher_price_than_prev_tx>
 ```
 
-# Deployment Flow  for Minimal Proxy Clones
+## Deployment Flow  for Minimal Proxy Clones
 
 The following paragraphs describe the inner workings of the factory deployment&#x20;
 
-## 1. Deploy the Factory
+### 1. Deploy the Factory
 
 Begin by deploying a **factory contract** (e.g., `OpenFactory`) that creates [**minimal clones**](https://docs.openzeppelin.com/contracts/5.x/api/proxy#minimal_clones) . This factory may manage:
 
@@ -261,7 +261,7 @@ Begin by deploying a **factory contract** (e.g., `OpenFactory`) that creates [**
 address FACTORY = new OpenFactory(FEE_BPS, FEE_RECIPIENT);
 ```
 
-## 2. Deploy the Master Copy
+### 2. Deploy the Master Copy
 
 Deploy a **master copy** (an instance of `ERC721Base`), passing the factory’s address to its constructor:
 
@@ -269,7 +269,7 @@ Deploy a **master copy** (an instance of `ERC721Base`), passing the factory’s 
 address ERC721_BASE_MASTER = new ERC721Base(address(FACTORY));
 ```
 
-### Constructor
+#### Constructor
 
 The `constructor` of  token contracts is used to set common state needed by cloned contracts, i.e. the address of the factory contract from which clones will be created (this means a factory instance must already exist because its address is needed as a `constructor` argument by token contracts).
 
@@ -287,7 +287,7 @@ constructor(address factory_) {
 * Serves as the “implementation” contract.
 * Each **clone** references this code via **delegatecall**, reducing gas versus a full deployment.
 
-## 3. Whitelist the Master Copy
+### 3. Whitelist the Master Copy
 
 To allow the factory to clone a specific master copy, it must be **whitelisted**:
 
@@ -295,7 +295,7 @@ To allow the factory to clone a specific master copy, it must be **whitelisted**
 FACTORY.setMaster(address(ERC721_BASE_MASTER), true);
 ```
 
-## 4. Clone and Initialize
+### 4. Clone and Initialize
 
 Once the master is whitelisted, call the factory’s `clone` function:
 
@@ -317,7 +317,7 @@ After deployment, the factory calls the clone’s `initialize(_data)`, which set
 
 The line `require(msg.sender == _FACTORY);` is used for access control, it compares `msg.sender` with the address of the factory contract that was set at deployment of the master contract instance. Therefore, all cloned contract instances will share the same factory address, without the need to set new access control state variables such as [**Openzeppelin's initializers**](https://docs.openzeppelin.com/contracts/5.x/api/proxy#Initializable) every time a new clone is deployed.
 
-### Initialize Function
+#### Initialize Function
 
 ```solidity
 function initialize(bytes memory _data) public virtual {
@@ -342,7 +342,7 @@ function initialize(bytes memory _data) public virtual {
 * **Role Assignment**: Grants admin, curator, and minter roles to the `deployer`.
 * **Default Royalty**: `_setDefaultRoyalty(deployer, defaultRoyaltyBps)`.
 
-# Verifying a Contract
+## Verifying a Contract
 
 Example command
 
@@ -358,7 +358,7 @@ forge verify-contract \
     src/MyToken.sol:MyToken
 ```
 
-# Preset Contracts
+## Preset Contracts
 
 "Presets" are fully complete smart contracts that can be customized by overriding functions OR by importing
 "[extensions](./#extending-preset-token-contracts)" contracts.
@@ -380,7 +380,7 @@ from the parent `ERC721` contract and adds to it an optional extension of
 [`ERC721`](https://docs.openzeppelin.com/contracts/4.x/api/token/erc721#ERC721) defined in the EIP that adds
 enumerability of all the token ids in the contract as well as all token ids owned by each account and the.
 
-## Extending Presets
+### Inheriting from Presets
 
 All of the contracts are expected to be used either standalone or via inheritance by inheriting from them when writing
 your own contracts. See the tutorials section for details each contract.
@@ -429,19 +429,19 @@ contract specific parameters can be set when deploying new sovereign contracts (
 Therefore, even though the clones are not really upgradeable, they have most of the same requirements that upgradeable
 contracts have: initializer function, no immutable variables.
 
-# Bug reports
+## Bug reports
 
 Found a security issue with our smart contracts? Send bug reports to security@ninfa.io and we'll continue communicating
 with you from there.
 
-# Feedback
+## Feedback
 
 If you have any feedback, please reach out to us at support@ninfa.io.
 
-# Authors
+## Authors
 
 [Cosimo de' Medici](https://github.com/codemedici) @ [**Ninfa.io**](https://ninfa.io)
 
-# License
+## License
 
 [MIT](./LICENSE)
