@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
-import {Script} from "forge-std/Script.sol";
-import {console2} from "forge-std/console2.sol";
+import { Script } from "forge-std/Script.sol";
+import { console2 } from "forge-std/console2.sol";
 
 import "src/token/ERC721/presets/ERC721Base.sol";
 import "src/token/ERC721/presets/ERC721Generative.sol";
@@ -13,8 +13,8 @@ import "src/token/ERC1155/presets/ERC1155OpenEdition.sol";
 import "src/factory/OpenFactory.sol";
 import "src/OnChainMarketplace.sol";
 import "src/EnglishAuction.sol";
-import {USDC} from "test/utils/mocks/USDC.sol";
-import {ETHUSDPriceFeed} from "test/utils/mocks/ETHUSDPriceFeed.sol";
+import { USDC } from "test/utils/mocks/USDC.sol";
+import { ETHUSDPriceFeed } from "test/utils/mocks/ETHUSDPriceFeed.sol";
 
 contract Deploy is Script {
     // Master copies
@@ -47,7 +47,6 @@ contract Deploy is Script {
         address usdc;
         address ethUsdPriceFeed;
 
-
         // Start broadcasting; if no private key is provided via CLI, Foundry will prompt you.
         vm.startBroadcast();
 
@@ -56,20 +55,20 @@ contract Deploy is Script {
             console2.log("Network: Mainnet");
             usdc = _USDC_MAINNET;
             ethUsdPriceFeed = _ETHUSD_PRICE_FEED_MAINNET;
-        } else if (chainId == 11155111) {
+        } else if (chainId == 11_155_111) {
             // Sepolia
             // For Sepolia, we'll deploy a mock USDC contract
             console2.log("Network: Sepolia");
             // Deploy a new instance of the mock USDC contract for Sepolia
-            USDC mockUSDC = new USDC(1000000000000000); // 1,000,000,000 USDC
+            USDC mockUSDC = new USDC(1_000_000_000_000_000); // 1,000,000,000 USDC
             usdc = address(mockUSDC);
             console2.log("Mock USDC :", usdc);
             ethUsdPriceFeed = _ETHUSD_PRICE_FEED_SEPOLIA;
-        } else if (chainId == 31337) {
+        } else if (chainId == 31_337) {
             // Anvil
             console2.log("Network: Anvil");
             // Deploy a new instance of the mock USDC contract for Anvil
-            USDC mockUSDC = new USDC(1000000000000000); // 1,000,000,000 usdc
+            USDC mockUSDC = new USDC(1_000_000_000_000_000); // 1,000,000,000 usdc
             usdc = address(mockUSDC);
             console2.log("Mock USDC :", usdc);
             // also deploy mock ETH/USD price feed
@@ -118,12 +117,7 @@ contract Deploy is Script {
         console2.log("ERC1155OpenEdition :", address(_erc1155OpenEdition));
 
         // Deploy the OnChainMarketplace using the determined USDC and ETH/USD feed addresses
-        _onChainMarketplace = new OnChainMarketplace(
-            usdc,
-            ethUsdPriceFeed,
-            _feeRecipient,
-            _FEE_BPS
-        );
+        _onChainMarketplace = new OnChainMarketplace(usdc, ethUsdPriceFeed, _feeRecipient, _FEE_BPS);
         console2.log("OnChainMarketplace :", address(_onChainMarketplace));
 
         // Deploy the EnglishAuction contract
