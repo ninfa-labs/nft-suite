@@ -28,7 +28,7 @@ A template library for secure NFT smart contracts development, including:
   - [Payable](https://docs.ninfa.io/tutorials/factory/payablefactory): sovereign factory with single owner, allowing
     anyone to clone whitelisted contracts for a fee.
 
-## Getting Started
+# Introduction
 
 Click the [`Use this template`](https://github.com/ninfa-labs/nft-suite/generate) button at the top of the Github page
 in order to create a new repository from the template project.
@@ -61,7 +61,7 @@ npm install ninfa-labs/nft-suite
 yarn add ninfa-labs/nft-suite
 ```
 
-## Dependencies
+# Dependencies
 
 Foundry typically uses git submodules to manage dependencies, but this template uses Node.js packages because
 [submodules don't scale](https://twitter.com/PaulRBerg/status/1736695487057531328).
@@ -80,14 +80,62 @@ The following dependencies are included in `package.json`:
 - [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter for
   non-Solidity files
 
-## External Libraries
-
 External libraries, such as [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts), are not required
-dependencies. Instead, they are included in this project's `src` directory to allow modifications for storage and gas
-optimizations. This is necessary because the contracts in this repository are deployed on mainnet for
-[Ninfa.io](https://ninfa.io).
+dependencies, not because they aren't needed, but because they have been modified and included in the `src` directory as part of the local codebase.
+I.e. you will notice that there is no `lib` folder, but ultimately the libraries original file path has been kept the same,
+in order to match the folder structure of the original projects, mainly OpenZeppelin's.
+The following list shows all of the external libraries and interfaces used by this project and their file path,
+the original author and version are recorded within each contract's NatSpec comments.
 
-## Sensible Defaults
+```
+src
+├── access
+│   ├── AccessControl.sol
+│   ├── IAccessControl.sol
+│   └── Owned.sol
+├── token
+│   ├── common
+│   │   ├── DecodeTokenURI.sol
+│   │   ├── EIP712.sol
+│   │   ├── EncodeType.sol
+│   │   ├── ERC2981.sol
+│   │   ├── IERC6093.sol
+│   │   └── Metadata.sol
+│   ├── ERC1155
+│   │   ├── ERC1155.sol
+│   │   ├── extensions
+│   │   │   ├── ERC1155Burnable.sol
+│   │   │   ├── ERC1155Metadata_URI.sol
+│   │   │   ├── ERC1155Royalty.sol
+│   │   │   └── ERC1155Supply.sol
+│   │   ├── IERC1155Receiver.sol
+│   └── ERC721
+│       ├── ERC721.sol
+│       ├── extensions
+│       │   ├── ERC721Burnable.sol
+│       │   ├── ERC721Enumerable.sol
+│       │   ├── ERC721Metadata_URI_autoIncrementID.sol
+│       │   ├── ERC721Metadata_URI.sol
+│       │   └── ERC721Royalty.sol
+│       ├── IERC721Receiver.sol
+└── utils
+    ├── Address.sol
+    ├── Counters.sol
+    ├── cryptography
+    │   ├── ECDSA.sol
+    │   ├── MerkleProofLib.sol
+    │   ├── SignatureChecker.sol
+    │   └── SSTORE2.sol
+    ├── interfaces
+    ├── math
+    │   └── Math.sol
+    ├── proxy
+    │   └── Clones.sol
+    ├── RoyaltyEngineV1.sol
+    └── Strings.sol
+```
+
+# Sensible Defaults
 
 This template comes with a set of sensible default configurations for you to use. These defaults can be found in the
 following files:
@@ -102,14 +150,14 @@ following files:
 └── remappings.txt
 ```
 
-## GitHub Actions
+# GitHub Actions
 
 This template comes with GitHub Actions pre-configured. Your contracts will be linted and tested on every push and pull
 request made to the `main` branch.
 
 You can edit the CI script in `.github/workflows/ci.yml`.
 
-## Test Suite
+# Test Suite
 
 To run all unit test files located in `/test`:
 
@@ -147,7 +195,7 @@ Call a function on deployed contracts (testnet or mainnet):
 cast send --private-key=${PK_DEPLOYER} ${TARGET_CONTRACT} "fooBar(address,bool)" <address> <bool> --rpc-url=${RPC_URL_SEPOLIA}
 ```
 
-## Deployment Scripts
+# Deployment Scripts
 
 Deployment scripts are located in the `script` folder. Currently it contains a single script, `Deploy.sol`, which can be
 used to deploy all contracts on any EVM compatible chain.
@@ -196,7 +244,105 @@ to replace the stuck tx by sending 0 ETH:
 cast send --private-key=${PK_DEPLOYER} --value 0 --rpc-url=${RPC_URL_MAINNET} --nonce <nonce_of_stuck_tx> --gas-price <higher_price_than_prev_tx>
 ```
 
-### Verifying a Contract
+# Deployment Flow  for Minimal Proxy Clones
+
+The following paragraphs describe the inner workings of the factory deployment&#x20;
+
+## 1. Deploy the Factory
+
+Begin by deploying a **factory contract** (e.g., `OpenFactory`) that creates [**minimal clones**](https://docs.openzeppelin.com/contracts/5.x/api/proxy#minimal_clones) . This factory may manage:
+
+* Optional cloning fees (e.g., `FEE_BPS`, `FEE_RECIPIENT`)
+* Whitelisting of approved master copies
+* Cloning logic to deploy a proxy using`create2` (salted deterministic deployment)
+* Functions to predict the addresses of clones deployed using the deterministic method.
+
+```solidity
+address FACTORY = new OpenFactory(FEE_BPS, FEE_RECIPIENT);
+```
+
+## 2. Deploy the Master Copy
+
+Deploy a **master copy** (an instance of `ERC721Base`), passing the factory’s address to its constructor:
+
+```solidity
+address ERC721_BASE_MASTER = new ERC721Base(address(FACTORY));
+```
+
+### Constructor
+
+The `constructor` of  token contracts is used to set common state needed by cloned contracts, i.e. the address of the factory contract from which clones will be created (this means a factory instance must already exist because its address is needed as a `constructor` argument by token contracts).
+
+```solidity
+constructor(address factory_) {
+    _FACTORY = factory_;
+}
+```
+
+* Stores the **factory contract** address.
+* Ensures only that factory can invoke the clone’s initialization.
+
+**Why a Master Copy?**
+
+* Serves as the “implementation” contract.
+* Each **clone** references this code via **delegatecall**, reducing gas versus a full deployment.
+
+## 3. Whitelist the Master Copy
+
+To allow the factory to clone a specific master copy, it must be **whitelisted**:
+
+```solidity
+FACTORY.setMaster(address(ERC721_BASE_MASTER), true);
+```
+
+## 4. Clone and Initialize
+
+Once the master is whitelisted, call the factory’s `clone` function:
+
+```solidity
+address cloneAddress = FACTORY.clone(
+    address(ERC721_BASE_MASTER),
+    bytes32(0x0),
+    abi.encode(_MINTER, 1000, _SYMBOL, _NAME)
+);
+
+ERC721Base cloneInstance = ERC721Base(cloneAddress);
+```
+
+* **`_instance`**: Address of the whitelisted master copy.
+* **`_salt`**: For deterministic CREATE2 deployment or `0x0` if not needed.
+* **`_data`**: Encoded parameters for `initialize(bytes)`.
+
+After deployment, the factory calls the clone’s `initialize(_data)`, which sets roles, royalties, and metadata.
+
+The line `require(msg.sender == _FACTORY);` is used for access control, it compares `msg.sender` with the address of the factory contract that was set at deployment of the master contract instance. Therefore, all cloned contract instances will share the same factory address, without the need to set new access control state variables such as [**Openzeppelin's initializers**](https://docs.openzeppelin.com/contracts/5.x/api/proxy#Initializable) every time a new clone is deployed.
+
+### Initialize Function
+
+```solidity
+function initialize(bytes memory _data) public virtual {
+    require(msg.sender == _FACTORY);
+
+    (address deployer, uint96 defaultRoyaltyBps, string memory symbol_, string memory name_) =
+        abi.decode(_data, (address, uint96, string, string));
+    symbol = symbol_;
+    _name = name_;
+
+    _setDefaultRoyalty(deployer, defaultRoyaltyBps);
+
+    _grantRole(DEFAULT_ADMIN_ROLE, deployer);
+    _grantRole(CURATOR_ROLE, deployer);
+    _grantRole(MINTER_ROLE, deployer);
+    _setRoleAdmin(MINTER_ROLE, CURATOR_ROLE);
+}
+```
+
+* **Access Restriction**: Only the factory can call it (`require(msg.sender == _FACTORY)`).
+* **Data Decoding**: Extracts `deployer`, `defaultRoyaltyBps`, `symbol`, `name`.
+* **Role Assignment**: Grants admin, curator, and minter roles to the `deployer`.
+* **Default Royalty**: `_setDefaultRoyalty(deployer, defaultRoyaltyBps)`.
+
+# Verifying a Contract
 
 Example command
 
@@ -212,7 +358,7 @@ forge verify-contract \
     src/MyToken.sol:MyToken
 ```
 
-## Preset Contracts
+# Preset Contracts
 
 "Presets" are fully complete smart contracts that can be customized by overriding functions OR by importing
 "[extensions](./#extending-preset-token-contracts)" contracts.
@@ -275,7 +421,7 @@ Inheritance allows you to extend your smart contract's properties to include the
 properties. The inherited functions from this parent contract can be modified in the child contract via a process known
 as overriding.
 
-#### Upgradeability
+### Upgradeability
 
 All NFT preset contracts in `./src/token` are compatible with both upgradeable and regular deployment patterns. All
 initial state changes are written inside the `initialize()` function, rather than the constructor, this is so that
@@ -283,19 +429,19 @@ contract specific parameters can be set when deploying new sovereign contracts (
 Therefore, even though the clones are not really upgradeable, they have most of the same requirements that upgradeable
 contracts have: initializer function, no immutable variables.
 
-## Bug reports
+# Bug reports
 
 Found a security issue with our smart contracts? Send bug reports to security@ninfa.io and we'll continue communicating
 with you from there.
 
-## Feedback
+# Feedback
 
 If you have any feedback, please reach out to us at support@ninfa.io.
 
-## Authors
+# Authors
 
 [Cosimo de' Medici](https://github.com/codemedici) @ [**Ninfa.io**](https://ninfa.io)
 
-## License
+# License
 
 [MIT](./LICENSE)
