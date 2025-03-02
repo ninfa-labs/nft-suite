@@ -5,7 +5,10 @@ import {Script} from "forge-std/Script.sol";
 import {console2} from "forge-std/console2.sol";
 
 import "src/token/ERC721/presets/ERC721Base.sol";
+import "src/token/ERC721/presets/ERC721Generative.sol";
+import "src/token/ERC721/presets/ERC721LazyMint.sol";
 import "src/token/ERC1155/presets/ERC1155Base.sol";
+import "src/token/ERC1155/presets/ERC1155LazyMint.sol";
 import "src/token/ERC1155/presets/ERC1155OpenEdition.sol";
 import "src/factory/OpenFactory.sol";
 import "src/OnChainMarketplace.sol";
@@ -89,10 +92,25 @@ contract Deploy is Script {
         _openFactory.setMaster(address(_erc721Base), true);
         console2.log("ERC721Base :", address(_erc721Base));
 
+        // Deploy and whitelist the ERC721Generative master copy
+        ERC721Generative erc721Generative = new ERC721Generative(address(_openFactory));
+        _openFactory.setMaster(address(erc721Generative), true);
+        console2.log("ERC721Generative :", address(erc721Generative));
+
+        // Deploy and whitelist the ERC721LazyMint master copy
+        ERC721LazyMint erc721LazyMint = new ERC721LazyMint(address(_openFactory));
+        _openFactory.setMaster(address(erc721LazyMint), true);
+        console2.log("ERC721LazyMint :", address(erc721LazyMint));
+
         // Deploy and whitelist the ERC1155Base master copy
         _erc1155Base = new ERC1155Base(address(_openFactory));
         _openFactory.setMaster(address(_erc1155Base), true);
         console2.log("ERC1155Base :", address(_erc1155Base));
+
+        // Deploy and whitelist the ERC1155LazyMint master copy
+        ERC1155LazyMint erc1155LazyMint = new ERC1155LazyMint(address(_openFactory));
+        _openFactory.setMaster(address(erc1155LazyMint), true);
+        console2.log("ERC1155LazyMint :", address(erc1155LazyMint));
 
         // Deploy and whitelist the ERC1155OpenEdition master copy
         _erc1155OpenEdition = new ERC1155OpenEdition(address(_openFactory));
