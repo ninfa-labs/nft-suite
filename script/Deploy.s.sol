@@ -1,109 +1,117 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
-// import "forge-std/Test.sol";
-import { Script } from "forge-std/Script.sol";
-import { console2 } from "forge-std/console2.sol";
+import {Script} from "forge-std/Script.sol";
+import {console2} from "forge-std/console2.sol";
+
 import "src/token/ERC721/presets/ERC721Base.sol";
+import "src/token/ERC1155/presets/ERC1155Base.sol";
 import "src/token/ERC1155/presets/ERC1155OpenEdition.sol";
 import "src/factory/OpenFactory.sol";
 import "src/OnChainMarketplace.sol";
 import "src/EnglishAuction.sol";
+import {USDC} from "test/utils/mocks/USDC.sol";
+import {ETHUSDPriceFeed} from "test/utils/mocks/ETHUSDPriceFeed.sol";
 
-contract Mainnet is Script {
-    ERC721Base private _ERC721Base;
-    ERC1155OpenEdition private _ERC1155OpenEdition;
+contract Deploy is Script {
+    // Master copies
+    ERC721Base private _erc721Base;
+    ERC1155Base private _erc1155Base;
+    ERC1155OpenEdition private _erc1155OpenEdition;
+
+    // Core contracts
     OpenFactory private _openFactory;
     OnChainMarketplace private _onChainMarketplace;
     EnglishAuction private _englishAuction;
 
-    // Mainnet USDC 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
+    // Constants
+    uint256 private constant _FEE_BPS = 500; // 5% fee
+
+    // Mainnet addresses (chainId = 1)
     address private constant _USDC_MAINNET = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
-    // https://docs.chain.link/data-feeds/price-feeds/addresses
-    address private constant _ETHUSD_PRICE_FEED_MAINNET = 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419; // Mainnet ETH/USD
-    address private _FEE_RECIPIENT;
-    uint256 private constant _FEE_BPS = 500;
-    uint256 private _PK_DEPLOYER;
+    address private constant _ETHUSD_PRICE_FEED_MAINNET = 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419;
 
-    function run() public {
-        _PK_DEPLOYER = vm.envUint("PK_DEPLOYER");
-        _FEE_RECIPIENT = vm.envAddress("FEE_RECIPIENT_ACCOUNT");
+    // Sepolia addresses (chainId = 11155111)
+    address private constant _ETHUSD_PRICE_FEED_SEPOLIA = 0x694AA1769357215DE4FAC081bf1f309aDC325306;
 
-        vm.startBroadcast(_PK_DEPLOYER);
+    // Fee recipient (non-sensitive, loaded from env)
+    address private _feeRecipient;
 
-        _openFactory = new OpenFactory(_FEE_BPS, _FEE_RECIPIENT);
+    function run() external {
+        uint256 chainId = block.chainid;
+        console2.log("Deploying on chainID:", chainId);
 
-        address factory = address(_openFactory);
-        console2.log("factory", factory);
+        address usdc;
+        address ethUsdPriceFeed;
 
-        _ERC721Base = new ERC721Base(factory);
-        _openFactory.setMaster(address(_ERC721Base), true);
-        console2.log("ERC721Base", address(_ERC721Base));
 
-        _ERC1155OpenEdition = new ERC1155OpenEdition(factory);
-        _openFactory.setMaster(address(_ERC1155OpenEdition), true);
-        console2.log("ERC1155OpenEdition", address(_ERC1155OpenEdition));
+        // Start broadcasting; if no private key is provided via CLI, Foundry will prompt you.
+        vm.startBroadcast();
 
+        if (chainId == 1) {
+            // Mainnet
+            console2.log("Network: Mainnet");
+            usdc = _USDC_MAINNET;
+            ethUsdPriceFeed = _ETHUSD_PRICE_FEED_MAINNET;
+        } else if (chainId == 11155111) {
+            // Sepolia
+            // For Sepolia, we'll deploy a mock USDC contract
+            console2.log("Network: Sepolia");
+            // Deploy a new instance of the mock USDC contract for Sepolia
+            USDC mockUSDC = new USDC(1000000000000000); // 1,000,000,000 USDC
+            usdc = address(mockUSDC);
+            console2.log("Mock USDC :", usdc);
+            ethUsdPriceFeed = _ETHUSD_PRICE_FEED_SEPOLIA;
+        } else if (chainId == 31337) {
+            // Anvil
+            console2.log("Network: Anvil");
+            // Deploy a new instance of the mock USDC contract for Anvil
+            USDC mockUSDC = new USDC(1000000000000000); // 1,000,000,000 usdc
+            usdc = address(mockUSDC);
+            console2.log("Mock USDC :", usdc);
+            // also deploy mock ETH/USD price feed
+            ETHUSDPriceFeed mockETHUSDPriceFeed = new ETHUSDPriceFeed();
+            ethUsdPriceFeed = address(mockETHUSDPriceFeed);
+            console2.log("Mock ETH/USD price feed :", ethUsdPriceFeed);
+        } else {
+            revert("Unsupported chain. Please deploy on Mainnet or Sepolia.");
+        }
+
+        // Hardcode fee receipient to the deployer, chnge if needed
+        _feeRecipient = msg.sender;
+
+        // Deploy the OpenFactory contract
+        _openFactory = new OpenFactory(_FEE_BPS, _feeRecipient);
+        console2.log("OpenFactory :", address(_openFactory));
+
+        // Deploy and whitelist the ERC721Base master copy
+        _erc721Base = new ERC721Base(address(_openFactory));
+        _openFactory.setMaster(address(_erc721Base), true);
+        console2.log("ERC721Base :", address(_erc721Base));
+
+        // Deploy and whitelist the ERC1155Base master copy
+        _erc1155Base = new ERC1155Base(address(_openFactory));
+        _openFactory.setMaster(address(_erc1155Base), true);
+        console2.log("ERC1155Base :", address(_erc1155Base));
+
+        // Deploy and whitelist the ERC1155OpenEdition master copy
+        _erc1155OpenEdition = new ERC1155OpenEdition(address(_openFactory));
+        _openFactory.setMaster(address(_erc1155OpenEdition), true);
+        console2.log("ERC1155OpenEdition :", address(_erc1155OpenEdition));
+
+        // Deploy the OnChainMarketplace using the determined USDC and ETH/USD feed addresses
         _onChainMarketplace = new OnChainMarketplace(
-            _USDC_MAINNET, // USDC
-            _ETHUSD_PRICE_FEED_MAINNET, // ETH/USD
-            _FEE_RECIPIENT, // fee recipient (deployer)
+            usdc,
+            ethUsdPriceFeed,
+            _feeRecipient,
             _FEE_BPS
         );
+        console2.log("OnChainMarketplace :", address(_onChainMarketplace));
 
-        console2.log("onChainMarketplace", address(_onChainMarketplace));
+        // Deploy the EnglishAuction contract
+        _englishAuction = new EnglishAuction(_feeRecipient, _FEE_BPS);
+        console2.log("EnglishAuction :", address(_englishAuction));
 
-        _englishAuction = new EnglishAuction(_FEE_RECIPIENT, _FEE_BPS);
-
-        console2.log("EnglishAuction", address(_englishAuction));
-    }
-}
-
-contract Goerli is Script {
-    ERC721Base private _ERC721Base;
-    ERC1155OpenEdition private _ERC1155OpenEdition;
-    OpenFactory private _openFactory;
-    OnChainMarketplace private _onChainMarketplace;
-    EnglishAuction private _englishAuction;
-
-    address private constant _USDC_GOERLI = 0x07865c6E87B9F70255377e024ace6630C1Eaa37F; // (deprecated)
-    address private constant _ETHUSD_PRICE_FEED_GOERLI = 0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e; // (deprecated)
-    address private _FEE_RECIPIENT;
-    uint256 private constant _FEE_BPS = 500;
-    uint256 private _PK_DEPLOYER;
-
-    function run() public {
-        // Extract the first account from the mnemonic using Foundry
-        _PK_DEPLOYER = vm.deriveKey(vm.envString("MNEMONIC_GANACHE"), 0);
-
-        _FEE_RECIPIENT = vm.envAddress("FEE_RECIPIENT_ACCOUNT");
-
-        vm.startBroadcast(_PK_DEPLOYER);
-
-        _openFactory = new OpenFactory(_FEE_BPS, _FEE_RECIPIENT);
-
-        address factory = address(_openFactory);
-        console2.log("factory", factory);
-
-        _ERC721Base = new ERC721Base(factory);
-        _openFactory.setMaster(address(_ERC721Base), true);
-        console2.log("ERC721Base", address(_ERC721Base));
-
-        _ERC1155OpenEdition = new ERC1155OpenEdition(factory);
-        _openFactory.setMaster(address(_ERC1155OpenEdition), true);
-        console2.log("ERC1155OpenEdition", address(_ERC1155OpenEdition));
-
-        _onChainMarketplace = new OnChainMarketplace(
-            _USDC_GOERLI, // USDC
-            _ETHUSD_PRICE_FEED_GOERLI, // ETH/USD
-            _FEE_RECIPIENT, // fee recipient (deployer)
-            _FEE_BPS
-        );
-
-        console2.log("onChainMarketplace", address(_onChainMarketplace));
-
-        _englishAuction = new EnglishAuction(_FEE_RECIPIENT, _FEE_BPS);
-
-        console2.log("EnglishAuction", address(_englishAuction));
+        vm.stopBroadcast();
     }
 }
