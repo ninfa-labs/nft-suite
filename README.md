@@ -9,18 +9,17 @@
 
 A template library for secure NFT smart contracts development, including:
 
-- [NFT Marketplace](https://docs.ninfa.io/tutorials/marketplace), create and manage on-chain NFT orders and offers, pay
+- [**NFT Marketplace**](https://docs.ninfa.io/tutorials/marketplace), create and manage on-chain NFT orders and offers, pay
   with ETH or USDC.
-- [English Auction](https://docs.ninfa.io/tutorials/auction)
-- ERC-721 and ERC-1155 token presets:
-  - minter ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721base),
+- [**English Auction**](https://docs.ninfa.io/tutorials/auction)
+- **ERC-721** and **ERC-1155** token presets:
+  - Minting ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721base),
     [ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155base))
-  - lazy-minter ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721lazymint),
+  - Lazy-minting ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721lazymint),
     [ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155lazymint))
-  - generative ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721generative))
-  - open editions ([ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155openedition))
-- Factory, deploy minimal proxy "clones", or exact copies of smart contract instrances, such as an NFT collection, this
-  is useful in order to have on-chain access control for the deployment of new instances:
+  - Generative art ([ERC-721](https://docs.ninfa.io/tutorials/erc-721/erc721generative))
+  - Open editions ([ERC-1155](https://docs.ninfa.io/tutorials/erc-1155/erc1155openedition))
+- **Clones "factory"**, deploy minimal proxy contracts aka "[clones](https://docs.openzeppelin.com/contracts/5.x/api/proxy#minimal_clones)", simply and cheaply in an immutable way:
   - [Curated](https://docs.ninfa.io/tutorials/factory/curatedfactory): a communal role-based access control factory,
     including a "curator" and a "minter" roles.
   - [Open](https://docs.ninfa.io/tutorials/factory/openfactory): sovereign factory with single owner, public `clone`
@@ -31,34 +30,25 @@ A template library for secure NFT smart contracts development, including:
 ## Overview
 
 Click the [`Use this template`](https://github.com/ninfa-labs/nft-suite/generate) button at the top of the Github page
-in order to create a new repository from the template project.
+in order to create a new repository from this project.
 
-Or, if you prefer to install the template from terminal:
+You may also install the template directly from the terminal using Foundry,
+if this is your first time with Foundry, check out the [installation](https://github.com/foundry-rs/foundry#installation) instructions:
 
 ```sh
-forge init --template ninfa-labs/nft-suite my-project
-cd my-project
+forge init --template ninfa-labs/nft-suite my-nft-project
+cd my-nft-project
 bun install # install Solhint, Prettier, and other Node.js deps
 ```
 
-If you have an existing project and want to import the contracts as a library instead, install the contracts package
+Alternatively, if you have an existing project and just want to import the contracts as a library, install the contracts package
 using your preferred Solidity development framework:
 
-Using Foundry
-
-If this is your first time with Foundry, check out the
-[installation](https://github.com/foundry-rs/foundry#installation) instructions.
-
 ```sh
-forge install https://github.com/ninfa-labs/nft-marketplace
-```
-
-Using Hardhat
-
-```sh
+# Using Foundry
+forge install ninfa-labs/nft-marketplace
+# Using Hardhat
 npm install ninfa-labs/nft-suite
-# or
-yarn add ninfa-labs/nft-suite
 ```
 
 ## Dependencies
