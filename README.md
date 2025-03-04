@@ -71,53 +71,8 @@ The following dependencies are included in `package.json`:
   non-Solidity files
 
 Note: Any external smart contract libraries, such as [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts),
-have been included in the `src` directory as part of the local codebase, i.e. there is no `lib` folder.
-The following list shows all of the external libraries used by this project and their file path,
+have been included in the `src` directory as part of the local codebase, i.e. there is no `lib` folder,
 the original author and version are recorded within each contract's NatSpec comments.
-
-```
-src
-├── access
-│   ├── AccessControl.sol
-│   └── Owned.sol
-├── token
-│   ├── common
-│   │   ├── DecodeTokenURI.sol
-│   │   ├── EIP712.sol
-│   │   ├── EncodeType.sol
-│   │   ├── ERC2981.sol
-│   │   ├── IERC6093.sol
-│   │   └── Metadata.sol
-│   ├── ERC1155
-│   │   ├── ERC1155.sol
-│   │   ├── extensions
-│   │   │   ├── ERC1155Burnable.sol
-│   │   │   ├── ERC1155Metadata_URI.sol
-│   │   │   ├── ERC1155Royalty.sol
-│   │   │   └── ERC1155Supply.sol
-│   └── ERC721
-│       ├── ERC721.sol
-│       ├── extensions
-│       │   ├── ERC721Burnable.sol
-│       │   ├── ERC721Enumerable.sol
-│       │   ├── ERC721Metadata_URI_autoIncrementID.sol
-│       │   ├── ERC721Metadata_URI.sol
-│       │   └── ERC721Royalty.sol
-└── utils
-    ├── Address.sol
-    ├── Counters.sol
-    ├── cryptography
-    │   ├── ECDSA.sol
-    │   ├── MerkleProofLib.sol
-    │   ├── SignatureChecker.sol
-    │   └── SSTORE2.sol
-    ├── math
-    │   └── Math.sol
-    ├── proxy
-    │   └── Clones.sol
-    ├── RoyaltyEngineV1.sol
-    └── Strings.sol
-```
 
 ## Sensible Defaults
 
