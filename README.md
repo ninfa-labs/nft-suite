@@ -110,28 +110,16 @@ To run a specific test file and test function:
 forge test --match-path test/ERC721Base.t.sol --match-test testMint -vvvv
 ```
 
-### Gas Usage
-
 Get a gas report:
 
 ```bash
 forge test --gas-report
 ```
 
-### Fork Testing
-
-Run the tests:
+Custom RPC endpoing:
 
 ```bash
 forge test --fork-url=${RPC_URL_MAINNET} [...]
-```
-
-### Function Calls
-
-Call a function on deployed contracts (testnet or mainnet):
-
-```bash
-cast send --private-key=${PK_DEPLOYER} ${TARGET_CONTRACT} "fooBar(address,bool)" <address> <bool> --rpc-url=${RPC_URL_SEPOLIA}
 ```
 
 ## Deployment Scripts
@@ -153,33 +141,11 @@ Example using a custom RPC endpoint (local node):
 forge script script/Deploy.s.sol --fork-url http://localhost:8545
 ```
 
-If gas prices are high, it may be useful to specify the price manually in order to save some ETH on mainnet:
-
-```
-forge script script/Deploy.sol --fork-url=${RPC_URL_MAINNET} -vv --with-gas-price 70000000000 --legacy --verify --broadcast
-```
-
-Alernatively, use Foundry `create` to deploy and verify a contract without a deployment script:
-```
-forge create --rpc-url=${RPC_URL_SEPOLIA} --constructor-args ${ARG1} ${ARG2} --mnemonic=${MNEMONIC} --etherscan-api-key=${API_KEY_ETHERSCAN} --verify src/token/ERC1155/presets/ERC1155Base.sol:ERC1155Base
-```
-
 For this script to work, you need to have a `MNEMONIC` environment variable set to a valid
 [BIP39 mnemonic](https://iancoleman.io/bip39/).
 
 For more instructions on how to deploy to a testnet or mainnet, check out the
 [Solidity Scripting](https://book.getfoundry.sh/guides/scripting-with-solidity) tutorial.
-
-#### Replacement transaction nonce
-
-Sometimes transactions might get stuck in the mempool, especially when deploying contracts as gas price might be set
-intentionally low in order to lower the cost of deploying new contracts, which means the deployer account remains stuck.
-Wallets are often ineffective or don't have an option to set the nonce manually, so here is how to use `cast` in order
-to replace the stuck tx by sending 0 ETH:
-
-```bash
-cast send --private-key=${PK_DEPLOYER} --value 0 --rpc-url=${RPC_URL_MAINNET} --nonce <nonce_of_stuck_tx> --gas-price <higher_price_than_prev_tx>
-```
 
 ## Deployment Flow  for Minimal Proxy Clones
 
