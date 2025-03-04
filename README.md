@@ -70,18 +70,15 @@ The following dependencies are included in `package.json`:
 - [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter for
   non-Solidity files
 
-External libraries, such as [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts), are not required
-dependencies, not because they aren't needed, but because they have been modified and included in the `src` directory as part of the local codebase.
-I.e. you will notice that there is no `lib` folder, but ultimately the libraries original file path has been kept the same,
-in order to match the folder structure of the original projects, mainly OpenZeppelin's.
-The following list shows all of the external libraries and interfaces used by this project and their file path,
+Note: Any external smart contract libraries, such as [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts),
+have been included in the `src` directory as part of the local codebase, i.e. there is no `lib` folder.
+The following list shows all of the external libraries used by this project and their file path,
 the original author and version are recorded within each contract's NatSpec comments.
 
 ```
 src
 ├── access
 │   ├── AccessControl.sol
-│   ├── IAccessControl.sol
 │   └── Owned.sol
 ├── token
 │   ├── common
@@ -98,7 +95,6 @@ src
 │   │   │   ├── ERC1155Metadata_URI.sol
 │   │   │   ├── ERC1155Royalty.sol
 │   │   │   └── ERC1155Supply.sol
-│   │   ├── IERC1155Receiver.sol
 │   └── ERC721
 │       ├── ERC721.sol
 │       ├── extensions
@@ -107,7 +103,6 @@ src
 │       │   ├── ERC721Metadata_URI_autoIncrementID.sol
 │       │   ├── ERC721Metadata_URI.sol
 │       │   └── ERC721Royalty.sol
-│       ├── IERC721Receiver.sol
 └── utils
     ├── Address.sol
     ├── Counters.sol
@@ -116,7 +111,6 @@ src
     │   ├── MerkleProofLib.sol
     │   ├── SignatureChecker.sol
     │   └── SSTORE2.sol
-    ├── interfaces
     ├── math
     │   └── Math.sol
     ├── proxy
@@ -195,24 +189,22 @@ forge script script/Deploy.sol [...] --broadcast
 ```
 
 The `--broadcast` flag should only be used in order to deploy on the real testnet or mainnet, if the flag is omitted,
-Foundry will use the an RPC endpoint if provided and do a dry-run deployment, if no endpoint is provided it will deploy
+Foundry will use an RPC endpoint if provided and do a dry-run deployment, if no endpoint is provided it will deploy
 on a local blockchain (Anvil).
 
-Deploy to local blockchain:
+Example using a custom RPC endpoint (local node):
 
 ```
 forge script script/Deploy.s.sol --fork-url http://localhost:8545
 ```
 
-Specify gas price:
+If gas prices are high, it may be useful to specify the price manually in order to save some ETH on mainnet:
 
 ```
 forge script script/Deploy.sol --fork-url=${RPC_URL_MAINNET} -vv --with-gas-price 70000000000 --legacy --verify --broadcast
 ```
 
-Deploy without a deployment script and attempt to verify contracts, the `--verify` flag can added while running scripts
-as well.
-
+Alernatively, use Foundry `create` to deploy and verify a contract without a deployment script:
 ```
 forge create --rpc-url=${RPC_URL_SEPOLIA} --constructor-args ${ARG1} ${ARG2} --mnemonic=${MNEMONIC} --etherscan-api-key=${API_KEY_ETHERSCAN} --verify src/token/ERC1155/presets/ERC1155Base.sol:ERC1155Base
 ```
@@ -221,7 +213,7 @@ For this script to work, you need to have a `MNEMONIC` environment variable set 
 [BIP39 mnemonic](https://iancoleman.io/bip39/).
 
 For more instructions on how to deploy to a testnet or mainnet, check out the
-[Solidity Scripting](https://book.getfoundry.sh/tutorials/solidity-scripting.html) tutorial.
+[Solidity Scripting](https://book.getfoundry.sh/guides/scripting-with-solidity) tutorial.
 
 #### Replacement transaction nonce
 
